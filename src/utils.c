@@ -6,34 +6,12 @@
 /*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 22:11:59 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/24 20:43:18 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/01/30 01:15:58 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
-
-void	free_tnumbers(t_num *num)
-{
-	if (num && num->tnumbers)
-	{
-		free(num->tnumbers);
-		num->tnumbers = NULL;
-	}
-}
-
-void	fill_stack(t_stack *stack, t_num *array)
-{
-	int	i;
-
-	i = 0;
-	while (i < array->size)
-	{
-		stack->a[i] = array->tnumbers[i];
-		i++;
-	}
-	stack->size_a = array->size;
-	stack->size_b = 0;
-}
+#include <stdio.h>
 
 void	sort_two(t_stack *stack)
 {
@@ -43,6 +21,9 @@ void	sort_two(t_stack *stack)
 
 void	sort_stack(t_stack *stack)
 {
+	stack->b = malloc(sizeof(int) * stack->size_a);
+	if (!stack->b)
+		return ;
 	if (is_sorted(stack))
 		return ;
 	if (stack->size_a == 2)
@@ -59,8 +40,6 @@ int	is_array_sorted(t_stack *stack)
 {
 	int	i;
 
-	if (stack->size_a <= 1)
-		return (1);
 	i = 0;
 	while (i < stack->size_a - 1)
 	{
@@ -69,4 +48,14 @@ int	is_array_sorted(t_stack *stack)
 		i++;
 	}
 	return (1);
+}
+
+void	free_tab_digit(char **tab_digit)
+{
+	int	i;
+
+	i = 0;
+	while (tab_digit[i])
+		free(tab_digit[i++]);
+	free(tab_digit);
 }

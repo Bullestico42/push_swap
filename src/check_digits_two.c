@@ -6,13 +6,13 @@
 /*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 02:21:43 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/24 16:27:00 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/01/30 01:11:50 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
 
-int	check_digits_two(char **argv, t_num *num)
+int	check_digits_two(char **argv, t_stack *stack)
 {
 	int	i;
 	int	j;
@@ -31,64 +31,56 @@ int	check_digits_two(char **argv, t_num *num)
 		}
 		i++;
 	}
-	if (!fill_tab_two(argv, num))
+	if (!fill_tab_two(argv, stack))
 		return (0);
-	if (!check_double_two(num, num->size))
+	if (!check_double_two(stack))
 		return (0);
 	return (1);
 }
 
-static int	process_number(char *str, t_num *num, int x)
+int	process_number(char *str, t_stack *stack, int x)
 {
 	long	num_value;
 
 	num_value = ft_atol(str);
 	if (num_value > INT_MAX || num_value < INT_MIN)
-	{
-		free(num->tnumbers);
 		return (0);
-	}
-	num->tnumbers[x] = (int)num_value;
+	stack->a[x] = (int)num_value;
 	return (1);
 }
 
-int	fill_tab_two(char **argv, t_num *num)
+int	fill_tab_two(char **argv, t_stack *stack)
 {
 	int	i;
-	int	x;
 
-	x = 0;
-	while (argv[num->size + 1] != NULL)
-		num->size++;
-	num->tnumbers = (int *)malloc(sizeof(int) * num->size);
-	if (!num->tnumbers)
+	i = 0;
+	while (argv[stack->size_a + 1] != NULL)
+		stack->size_a++;
+	stack->a = malloc(sizeof(int) * stack->size_a);
+	if (!stack->a)
 		return (0);
 	i = 1;
 	while (argv[i])
 	{
-		if (!process_number(argv[i], num, x))
+		if (!process_number(argv[i], stack, i - 1))
 			return (0);
 		i++;
-		x++;
 	}
 	return (1);
 }
 
-int	check_double_two(t_num *tab, int size)
+int	check_double_two(t_stack *stack)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < size && tab->tnumbers[i])
+	while (i < stack->size_a)
 	{
 		j = i + 1;
-		while (j < size && tab->tnumbers[j])
-		{
-			if (tab->tnumbers[i] == tab->tnumbers[j])
+		while (j < stack->size_a)
+			if (stack->a[i] == stack->a[j++])
 				return (0);
-			j++;
-		}
 		i++;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 02:12:31 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/24 20:47:26 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/01/30 01:12:40 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	get_max_bits(t_stack *stack)
 	int	max;
 	int	max_bits;
 
+	if (!stack || !stack->a || stack->size_a < 1)
+		return (0);
 	max = stack->size_a - 1;
 	max_bits = 0;
 	while ((max >> max_bits) != 0)
@@ -31,21 +33,30 @@ static void	index_stack(t_stack *stack)
 	int	*temp;
 	int	count;
 
+	if (!stack || !stack->a || stack->size_a < 2)
+		return;
 	temp = malloc(sizeof(int) * stack->size_a);
 	if (!temp)
-		return ;
-	i = -1;
-	while (++i < stack->size_a)
+		return;
+	i = 0;
+	while (i < stack->size_a)
+	{
 		temp[i] = stack->a[i];
-	i = -1;
-	while (++i < stack->size_a)
+		i++;
+	}
+	i = 0;
+	while (i < stack->size_a)
 	{
 		count = 0;
-		j = -1;
-		while (++j < stack->size_a)
+		j = 0;
+		while (j < stack->size_a)
+		{
 			if (temp[i] > temp[j])
 				count++;
+			j++;
+		}
 		stack->a[i] = count;
+		i++;
 	}
 	free(temp);
 }
@@ -73,21 +84,17 @@ void	radix_sort(t_stack *stack)
 
 	index_stack(stack);
 	max_bits = get_max_bits(stack);
-	i = 0;
-	while (i < max_bits)
+	i = -1;
+	while (++i < max_bits)
 	{
-		j = 0;
+		j = -1;
 		size = stack->size_a;
-		while (j < size)
-		{
+		while (++j < size && stack->a)
 			if ((stack->a[0] >> i) & 1)
 				ra(stack);
 			else
 				pb(stack);
-			j++;
-		}
 		while (stack->size_b)
 			pa(stack);
-		i++;
 	}
 }

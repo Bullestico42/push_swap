@@ -6,7 +6,7 @@
 /*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 17:03:40 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/24 20:49:25 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/01/29 21:32:01 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ char	**ft_split(char const *s, char c)
 	int		index;
 	char	**split;
 
+	if (!s)
+		return (NULL);
 	split = malloc((count_words(s, c) + 1) * sizeof(char *));
-	if (!s || !split)
-		return (0);
+	if (!split)
+		return (NULL);
 	i = 0;
 	j = 0;
 	index = -1;
@@ -65,7 +67,15 @@ char	**ft_split(char const *s, char c)
 			index = i;
 		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
 		{
-			split[j++] = word_dup(s, index, i);
+			split[j] = word_dup(s, index, i);
+			if (!split[j])
+			{
+				while (j > 0)
+					free(split[--j]);
+				free(split);
+				return (NULL);
+			}
+			j++;
 			index = -1;
 		}
 		i++;

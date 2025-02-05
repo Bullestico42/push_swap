@@ -6,11 +6,13 @@
 /*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 02:12:31 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/24 20:51:26 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:49:58 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
+
+static void	move_smallest_to_top(t_stack *stack);
 
 int	find_smallest_position(t_stack *stack)
 {
@@ -66,17 +68,9 @@ void	sort_three(t_stack *stack)
 
 void	sort_four(t_stack *stack)
 {
-	int	smallest_pos;
-
-	smallest_pos = find_smallest_position(stack);
-	while (smallest_pos > 0)
-	{
-		if (smallest_pos <= 2)
-			ra(stack);
-		else
-			rra(stack);
-		smallest_pos = (smallest_pos - 1 + 4) % 4;
-	}
+	if (stack->size_a < 4)
+		return ;
+	move_smallest_to_top(stack);
 	pb(stack);
 	sort_three(stack);
 	pa(stack);
@@ -84,18 +78,36 @@ void	sort_four(t_stack *stack)
 
 void	sort_five(t_stack *stack)
 {
-	int	smallest_pos;
-
-	smallest_pos = find_smallest_position(stack);
-	while (smallest_pos > 0)
-	{
-		if (smallest_pos <= 2)
-			ra(stack);
-		else
-			rra(stack);
-		smallest_pos = (smallest_pos - 1 + 5) % 5;
-	}
+	if (stack->size_a < 5)
+		sort_four(stack);
+	move_smallest_to_top(stack);
 	pb(stack);
 	sort_four(stack);
 	pa(stack);
+}
+
+static void	move_smallest_to_top(t_stack *stack)
+{
+	int	pos;
+	int	i;
+
+	pos = find_smallest_position(stack);
+	if (pos <= stack->size_a / 2)
+	{
+		i = 0;
+		while (i < pos)
+		{
+			ra(stack);
+			i++;
+		}
+	}
+	else
+	{
+		i = 0;
+		while (i < stack->size_a - pos)
+		{
+			rra(stack);
+			i++;
+		}
+	}
 }

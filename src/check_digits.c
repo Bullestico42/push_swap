@@ -6,7 +6,7 @@
 /*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:28:24 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/24 20:53:31 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/01/30 01:10:19 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,53 +33,57 @@ static int	count_words(const char *str, char c)
 	return (i);
 }
 
-void	free_tab_digit(char **tab_digit)
-{
-	int	i;
-
-	i = 0;
-	while (tab_digit[i])
-		free(tab_digit[i++]);
-	free(tab_digit);
-}
-
-int	check_digits(char *nums, t_num *num)
+int	check_digits(char *argv, t_stack *stack)
 {
 	char	**tab_digit;
-	int		word_count;
 
-	word_count = count_words(nums, ' ');
-	if (word_count < 2)
+	if (!argv)
 		return (0);
-	tab_digit = ft_split(nums, ' ');
+	stack->size_a = count_words(argv, ' ');
+	tab_digit = ft_split(argv, ' ');
 	if (!tab_digit)
 		return (0);
-	if (!fill_tab(tab_digit, num, nums))
-	{
-		free_tab_digit(tab_digit);
-		return (0);
-	}
-	if (!check_double(num))
-	{
-		free_tab_digit(tab_digit);
-		return (0);
-	}
+	if (!fill_tab(tab_digit, stack))
+		return (free_tab_digit(tab_digit), 0);
+	if (!check_numbers(stack))
+		return (free_tab_digit(tab_digit), 0);
+	if (!check_is_digits(tab_digit))
+		return (free_tab_digit(tab_digit), 0);
 	free_tab_digit(tab_digit);
 	return (1);
 }
 
-int	check_double(t_num *tab)
+int	check_is_digits(char **tab)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (i < tab->size)
+	while (tab[i])
+	{
+		j = 0;
+		if (tab[i][j] == '-' || tab[i][j] == '+')
+			j++;
+		while (tab[i][j])
+			if (!ft_isdigit(tab[i][j++]))
+				return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	check_numbers(t_stack *stack)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < stack->size_a)
 	{
 		j = i + 1;
-		while (j < tab->size)
+		while (j < stack->size_a)
 		{
-			if (tab->tnumbers[i] == tab->tnumbers[j])
+			if (stack->a[i] == stack->a[j])
 				return (0);
 			j++;
 		}
@@ -88,30 +92,24 @@ int	check_double(t_num *tab)
 	return (1);
 }
 
-int	fill_tab(char **tab_digit, t_num *tab, char *num)
+int fill_tab(char **tab_digit, t_stack *stack)
 {
 	int		i;
-	long	nums;
-
-	tab_digit = ft_split(num, ' ');
-	if (!tab_digit)
-		return (0);
-	while (tab_digit[tab->size])
-		tab->size++;
-	tab->tnumbers = (int *)malloc(sizeof(int) * tab->size);
-	if (!tab->tnumbers)
-		return (free_tab_digit(tab_digit), 0);
+	long	result;
+	
 	i = 0;
-	while (i < tab->size)
+	stack->a = (int *)malloc(sizeof(int) * stack->size_a);
+	if (!stack->a)
+		return (0);
+	while (tab_digit[i])
 	{
-		nums = ft_atol(tab_digit[i]);
-		if (nums > INT_MAX || nums < INT_MIN)
-		{
-			free_tnumbers(tab);
-			return (free_tab_digit(tab_digit), 0);
-		}
-		tab->tnumbers[i] = (int)nums;
-		i++;
+		result = ft_atol(tab_digit[i]);
+		if (result > INT_MAX || result < INT_MIN)
+			return (free_stacks(stack), 0);
+		stack->a[i++] = (int)result;
 	}
-	return (free_tab_digit(tab_digit), 1);
+	if (i < 2)
+		return (free_stacks(stack), 0);
+	return (1);
 }
+

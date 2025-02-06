@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: apiscopo <apiscopo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 02:12:31 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/30 01:12:40 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/02/05 20:25:23 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,22 @@ static void	index_stack(t_stack *stack)
 	int	count;
 
 	if (!stack || !stack->a || stack->size_a < 2)
-		return;
-	temp = malloc(sizeof(int) * stack->size_a);
+		return ;
+	temp = ft_calloc(stack->size_a, sizeof(int));
 	if (!temp)
-		return;
+		return ;
 	i = 0;
-	while (i < stack->size_a)
-	{
+	while (++i < stack->size_a)
 		temp[i] = stack->a[i];
-		i++;
-	}
 	i = 0;
 	while (i < stack->size_a)
 	{
 		count = 0;
 		j = 0;
-		while (j < stack->size_a)
-		{
+		while (++j < stack->size_a)
 			if (temp[i] > temp[j])
 				count++;
-			j++;
-		}
-		stack->a[i] = count;
-		i++;
+		stack->a[i++] = count;
 	}
 	free(temp);
 }
@@ -92,8 +85,8 @@ void	radix_sort(t_stack *stack)
 		while (++j < size && stack->a)
 			if ((stack->a[0] >> i) & 1)
 				ra(stack);
-			else
-				pb(stack);
+		else
+			pb(stack);
 		while (stack->size_b)
 			pa(stack);
 	}

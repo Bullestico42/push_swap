@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_small.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: apiscopo <apiscopo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 02:12:31 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/28 12:49:58 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/02/05 19:52:57 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,11 @@ void	sort_four(t_stack *stack)
 	if (stack->size_a < 4)
 		return ;
 	move_smallest_to_top(stack);
-	pb(stack);
+	if (!is_array_sorted(stack) && stack->b)
+		pb(stack);
 	sort_three(stack);
-	pa(stack);
+	if (stack->b)
+		pa(stack);
 }
 
 void	sort_five(t_stack *stack)
@@ -81,9 +83,11 @@ void	sort_five(t_stack *stack)
 	if (stack->size_a < 5)
 		sort_four(stack);
 	move_smallest_to_top(stack);
-	pb(stack);
+	if (!is_array_sorted(stack) && stack->b)
+		pb(stack);
 	sort_four(stack);
-	pa(stack);
+	if (stack->b)
+		pa(stack);
 }
 
 static void	move_smallest_to_top(t_stack *stack)

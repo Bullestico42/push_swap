@@ -3,85 +3,113 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: apiscopo <apiscopo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 17:03:40 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/29 21:32:01 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/02/05 18:11:52 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_words(const char *str, char c)
+static char	**free_array(char **dest, int i)
 {
-	int	i;
-	int	trigger;
-
-	i = 0;
-	trigger = 0;
-	while (*str)
+	while (i > 0)
 	{
-		if (*str != c && trigger == 0)
-		{
-			trigger = 1;
-			i++;
-		}
-		else if (*str == c)
-			trigger = 0;
-		str++;
+		free(dest[--i]);
 	}
-	return (i);
+	free(dest);
+	return (0);
 }
 
-static char	*word_dup(const char *str, int start, int finish)
+static int	count_word(char const *s, char c)
 {
-	char	*word;
-	int		i;
+	int	i;
+	int	count;
 
 	i = 0;
-	word = malloc((finish - start + 1) * sizeof(char));
-	while (start < finish)
-		word[i++] = str[start++];
-	word[i] = '\0';
-	return (word);
+	count = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			i++;
+		else
+		{
+			count++;
+			while (s[i] && s[i] != c)
+				i++;
+		}
+	}
+	return (count);
+}
+
+/*
+		 /\_/\
+		( o.o )
+		 > ^ <
+*/
+
+static char	*strword(const char *start, const char *end)
+{
+	size_t	len;
+	size_t	i;
+	char	*str;
+
+	len = end - start;
+	i = 0;
+	str = (char *)malloc((len + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+	while (i < len)
+	{
+		str[i] = start[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+static char	**splitword(const char *s, char c, char **dest)
+{
+	size_t		i;
+	const char	*start;
+
+	i = 0;
+	while (*s != '\0')
+	{
+		if (*s != c)
+		{
+			start = s;
+			while (*s != '\0' && *s != c)
+				s++;
+			dest[i] = strword(start, s);
+			if (dest[i] == NULL)
+			{
+				free_array(dest, i);
+				return (NULL);
+			}
+			i++;
+		}
+		else
+			s++;
+	}
+	dest[i] = NULL;
+	return (dest);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		i;
-	size_t	j;
-	int		index;
-	char	**split;
+	char		**dest;
+	size_t		nbword;
 
 	if (!s)
 		return (NULL);
-	split = malloc((count_words(s, c) + 1) * sizeof(char *));
-	if (!split)
+	nbword = count_word(s, c);
+	dest = (char **)malloc((nbword + 1) * sizeof(char *));
+	if (dest == NULL)
 		return (NULL);
-	i = 0;
-	j = 0;
-	index = -1;
-	while (i <= ft_strlen(s))
-	{
-		if (s[i] != c && index < 0)
-			index = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
-		{
-			split[j] = word_dup(s, index, i);
-			if (!split[j])
-			{
-				while (j > 0)
-					free(split[--j]);
-				free(split);
-				return (NULL);
-			}
-			j++;
-			index = -1;
-		}
-		i++;
-	}
-	split[j] = 0;
-	return (split);
+	dest = splitword(s, c, dest);
+	return (dest);
 }
 
 /*#include <stdio.h>

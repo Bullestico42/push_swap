@@ -12,7 +12,7 @@
 
 # Variables
 NAME = libft.a
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 # Fichiers source principaux
@@ -41,23 +41,32 @@ all: $(NAME)
 
 # Compilation de la bibliothèque normale
 $(NAME): $(OBJ)
-	$(AR) $(NAME) $(OBJ)
+	@printf "\rCreating library $(NAME)..."
+	@$(AR) $(NAME) $(OBJ)
+	@printf "\rLibrary $(NAME) created successfully.\n"
 
 # Règle Bonus : ajouter les objets bonus
 bonus: $(OBJBONUS)
-	$(AR) $(NAME) $(OBJBONUS)
+	@printf "\rAdding bonus objects to $(NAME)..."
+	@$(AR) $(NAME) $(OBJBONUS)
+	@printf "\rBonus objects added successfully.\n"
 
 # Compilation des fichiers .o à partir des .c
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@printf "\rCompiling $<...                   "
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Nettoyage des fichiers objets
 clean:
-	rm -f $(OBJ) $(OBJBONUS)
+	@printf "\rCleaning object files..."
+	@rm -f $(OBJ) $(OBJBONUS)
+	@printf "\rObject files cleaned.\n"
 
 # Nettoyage complet : fichiers objets + bibliothèque
 fclean: clean
-	rm -f $(NAME)
+	@printf "\rRemoving $(NAME)..."
+	@rm -f $(NAME)
+	@printf "\r$(NAME) removed.\n"
 
 # Reconstruction complète
 re: fclean all

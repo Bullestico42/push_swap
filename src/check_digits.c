@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_digits.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: apiscopo <apiscopo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:28:24 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/30 01:10:19 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/02/05 18:12:59 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ int	check_numbers(t_stack *stack)
 	return (1);
 }
 
-int fill_tab(char **tab_digit, t_stack *stack)
+int	fill_tab(char **tab_digit, t_stack *stack)
 {
 	int		i;
 	long	result;
-	
+
 	i = 0;
 	stack->a = (int *)malloc(sizeof(int) * stack->size_a);
 	if (!stack->a)
@@ -112,4 +112,3 @@ int fill_tab(char **tab_digit, t_stack *stack)
 		return (free_stacks(stack), 0);
 	return (1);
 }
-

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+         #
+#    By: apiscopo <apiscopo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/18 01:14:37 by apiscopo          #+#    #+#              #
-#    Updated: 2025/01/30 01:14:28 by apiscopo         ###   ########.fr        #
+#    Updated: 2025/02/06 23:20:35 by apiscopo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,21 +42,34 @@ all: $(NAME)
 
 # Compilation
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@printf "\rCompiling $(NAME)..."
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@printf "\r$(NAME) compiled successfully.\n"
 
 # Compile libft
 $(LIBFT):
-	make -C libft/
+	@printf "\rCompiling libft..."
+	@make -C libft/ --no-print-directory
+	@printf "\rLibft compiled successfully.\n"
+
+# Compilation des fichiers .o à partir des .c
+%.o: %.c $(HEAD)
+	@printf "\rCompiling $<...               "
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 # Clean objects
 clean:
-	$(RM) $(OBJS)
-	make clean -C libft/
+	@printf "\rCleaning object files..."
+	@$(RM) $(OBJS)
+	@make clean -C libft/ --no-print-directory
+	@printf "\rObject files cleaned.\n"
 
 # Clean everything
 fclean: clean
-	$(RM) $(NAME)
-	make fclean -C libft/
+	@printf "\rRemoving $(NAME)..."
+	@$(RM) $(NAME)
+	@make fclean -C libft/ --no-print-directory
+	@printf "\r$(NAME) removed.\n"
 
 # Recompile
 re: fclean all

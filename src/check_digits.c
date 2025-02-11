@@ -6,7 +6,7 @@
 /*   By: apiscopo <apiscopo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:28:24 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/02/11 20:34:22 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/02/11 21:00:46 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ int	check_is_digits(char **tab)
 		while (tab[i][j])
 		{
 			if (!ft_isdigit(tab[i][j++]))
+			{
+				ft_putendl_fd("Error", 2);
+				return (0);
+			}
+			if (j > 11)
 			{
 				ft_putendl_fd("Error", 2);
 				return (0);

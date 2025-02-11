@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: apiscopo <apiscopo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 01:22:08 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/30 00:37:56 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:46:33 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define MAX_SIZE 500
 
 # include <unistd.h>
+# include <stdio.h>
 # include "../libft/libft.h"
 
 typedef struct s_stack
@@ -58,6 +59,5 @@ void	free_stacks(t_stack *stack);
 void	free_tab_digit(char **tab_digit);
 long	ft_atol(const char *str);
 void	sort_stack(t_stack *stack);
-//int		check_chars(char **tab_digit);
 
 #endif

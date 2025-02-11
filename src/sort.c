@@ -6,7 +6,7 @@
 /*   By: apiscopo <apiscopo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 02:12:31 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/02/05 20:25:23 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:33:52 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,26 @@ static void	index_stack(t_stack *stack)
 {
 	int	i;
 	int	j;
-	int	*temp;
 	int	count;
+	int	*temp;
 
 	if (!stack || !stack->a || stack->size_a < 2)
 		return ;
 	temp = ft_calloc(stack->size_a, sizeof(int));
 	if (!temp)
 		return ;
-	i = 0;
+	i = -1;
 	while (++i < stack->size_a)
 		temp[i] = stack->a[i];
-	i = 0;
-	while (i < stack->size_a)
+	i = -1;
+	while (++i < stack->size_a)
 	{
 		count = 0;
-		j = 0;
+		j = -1;
 		while (++j < stack->size_a)
 			if (temp[i] > temp[j])
 				count++;
-		stack->a[i++] = count;
+		stack->a[i] = count;
 	}
 	free(temp);
 }
@@ -75,6 +75,8 @@ void	radix_sort(t_stack *stack)
 	int	size;
 	int	max_bits;
 
+	if (!stack || !stack->a || stack->size_a < 2)
+		return ;
 	index_stack(stack);
 	max_bits = get_max_bits(stack);
 	i = -1;
@@ -82,12 +84,14 @@ void	radix_sort(t_stack *stack)
 	{
 		j = -1;
 		size = stack->size_a;
-		while (++j < size && stack->a)
+		while (++j < size)
+		{
 			if ((stack->a[0] >> i) & 1)
 				ra(stack);
-		else
-			pb(stack);
-		while (stack->size_b)
+			else
+				pb(stack);
+		}
+		while (stack->size_b > 0)
 			pa(stack);
 	}
 }

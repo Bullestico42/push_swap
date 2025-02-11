@@ -43,7 +43,6 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	@printf "\rCreating library $(NAME)..."
 	@$(AR) $(NAME) $(OBJ)
-	@printf "\rLibrary $(NAME) created successfully.\n"
 
 # Règle Bonus : ajouter les objets bonus
 bonus: $(OBJBONUS)

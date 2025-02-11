@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_digits_two.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apiscopo <apiscopo@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: apiscopo <apiscopo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 02:21:43 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/01/30 01:11:50 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/02/11 20:32:24 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ int	check_digits_two(char **argv, t_stack *stack)
 			j++;
 		while (argv[i][j])
 		{
-			if (ft_isdigit(argv[i][j]) == 0)
+			if (!ft_isdigit(argv[i][j]))
+			{
+				ft_putendl_fd("Error", 2);
 				return (0);
+			}
 			j++;
 		}
 		i++;
@@ -44,7 +47,10 @@ int	process_number(char *str, t_stack *stack, int x)
 
 	num_value = ft_atol(str);
 	if (num_value > INT_MAX || num_value < INT_MIN)
+	{
+		ft_putendl_fd("Error", 2);
 		return (0);
+	}
 	stack->a[x] = (int)num_value;
 	return (1);
 }
@@ -53,13 +59,12 @@ int	fill_tab_two(char **argv, t_stack *stack)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (argv[stack->size_a + 1] != NULL)
 		stack->size_a++;
 	stack->a = malloc(sizeof(int) * stack->size_a);
 	if (!stack->a)
 		return (0);
-	i = 1;
 	while (argv[i])
 	{
 		if (!process_number(argv[i], stack, i - 1))
@@ -79,8 +84,13 @@ int	check_double_two(t_stack *stack)
 	{
 		j = i + 1;
 		while (j < stack->size_a)
+		{
 			if (stack->a[i] == stack->a[j++])
+			{
+				ft_putendl_fd("Error", 2);
 				return (0);
+			}
+		}
 		i++;
 	}
 	return (1);

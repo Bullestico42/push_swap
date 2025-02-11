@@ -6,7 +6,7 @@
 /*   By: apiscopo <apiscopo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 01:22:56 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/02/06 21:45:40 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/02/11 19:52:16 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 void	error_exit(t_stack *stack)
 {
-	if (stack->size_a <= 1)
-		return ;
 	free_stacks(stack);
-	ft_putendl_fd("Error", 2);
 	exit(1);
 }
 

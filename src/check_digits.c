@@ -6,7 +6,7 @@
 /*   By: apiscopo <apiscopo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:28:24 by apiscopo          #+#    #+#             */
-/*   Updated: 2025/02/05 18:12:59 by apiscopo         ###   ########.fr       */
+/*   Updated: 2025/02/11 20:34:22 by apiscopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,15 @@ int	check_digits(char *argv, t_stack *stack)
 {
 	char	**tab_digit;
 
-	if (!argv)
-		return (0);
 	stack->size_a = count_words(argv, ' ');
 	tab_digit = ft_split(argv, ' ');
 	if (!tab_digit)
 		return (0);
+	if (!check_is_digits(tab_digit))
+		return (free_tab_digit(tab_digit), 0);
 	if (!fill_tab(tab_digit, stack))
 		return (free_tab_digit(tab_digit), 0);
 	if (!check_numbers(stack))
-		return (free_tab_digit(tab_digit), 0);
-	if (!check_is_digits(tab_digit))
 		return (free_tab_digit(tab_digit), 0);
 	free_tab_digit(tab_digit);
 	return (1);
@@ -65,8 +63,13 @@ int	check_is_digits(char **tab)
 		if (tab[i][j] == '-' || tab[i][j] == '+')
 			j++;
 		while (tab[i][j])
+		{
 			if (!ft_isdigit(tab[i][j++]))
+			{
+				ft_putendl_fd("Error", 2);
 				return (0);
+			}
+		}
 		i++;
 	}
 	return (1);
@@ -84,7 +87,10 @@ int	check_numbers(t_stack *stack)
 		while (j < stack->size_a)
 		{
 			if (stack->a[i] == stack->a[j])
+			{
+				ft_putendl_fd("Error", 2);
 				return (0);
+			}
 			j++;
 		}
 		i++;
@@ -105,7 +111,10 @@ int	fill_tab(char **tab_digit, t_stack *stack)
 	{
 		result = ft_atol(tab_digit[i]);
 		if (result > INT_MAX || result < INT_MIN)
+		{
+			ft_putendl_fd("Error", 2);
 			return (free_stacks(stack), 0);
+		}
 		stack->a[i++] = (int)result;
 	}
 	if (i < 2)

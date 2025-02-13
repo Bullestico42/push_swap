@@ -11,7 +11,23 @@
 /* ************************************************************************** */
 
 #include "../include/push_swap.h"
-#include <stdio.h>
+
+void	error_exit(t_stack *stack)
+{
+	free_stacks(stack);
+	exit(1);
+}
+
+void	free_stacks(t_stack *stack)
+{
+	if (stack && stack->a)
+		free(stack->a);
+	if (stack && stack->b)
+		free(stack->b);
+	stack->a = NULL;
+	stack->b = NULL;
+	exit(0);
+}
 
 void	sort_two(t_stack *stack)
 {
@@ -34,20 +50,6 @@ void	sort_stack(t_stack *stack)
 		sort_five(stack);
 	else
 		radix_sort(stack);
-}
-
-int	is_array_sorted(t_stack *stack)
-{
-	int	i;
-
-	i = 0;
-	while (i < stack->size_a - 1)
-	{
-		if (stack->a[i] > stack->a[i + 1])
-			return (0);
-		i++;
-	}
-	return (1);
 }
 
 void	free_tab_digit(char **tab_digit)

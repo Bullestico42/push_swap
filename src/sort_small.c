@@ -71,7 +71,7 @@ void	sort_four(t_stack *stack)
 	if (stack->size_a < 4)
 		return ;
 	move_smallest_to_top(stack);
-	if (!is_array_sorted(stack) && stack->b)
+	if (!is_sorted(stack) && stack->b)
 		pb(stack);
 	sort_three(stack);
 	if (stack->b)
@@ -83,7 +83,7 @@ void	sort_five(t_stack *stack)
 	if (stack->size_a < 5)
 		sort_four(stack);
 	move_smallest_to_top(stack);
-	if (!is_array_sorted(stack) && stack->b)
+	if (!is_sorted(stack) && stack->b)
 		pb(stack);
 	sort_four(stack);
 	if (stack->b)

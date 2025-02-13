@@ -12,22 +12,6 @@
 
 #include "../include/push_swap.h"
 
-void	error_exit(t_stack *stack)
-{
-	free_stacks(stack);
-	exit(1);
-}
-
-void	free_stacks(t_stack *stack)
-{
-	if (stack && stack->a)
-		free(stack->a);
-	if (stack && stack->b)
-		free(stack->b);
-	stack->a = NULL;
-	stack->b = NULL;
-}
-
 int	main(int argc, char **argv)
 {
 	t_stack	stack;

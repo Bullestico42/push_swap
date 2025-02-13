@@ -64,16 +64,8 @@ int	check_is_digits(char **tab)
 			j++;
 		while (tab[i][j])
 		{
-			if (!ft_isdigit(tab[i][j++]))
-			{
-				ft_putendl_fd("Error", 2);
-				return (0);
-			}
-			if (j > 11)
-			{
-				ft_putendl_fd("Error", 2);
-				return (0);
-			}
+			if (!ft_isdigit(tab[i][j++]) || j > 11)
+				return (ft_putendl_fd("Error", 2), 0);
 		}
 		i++;
 	}

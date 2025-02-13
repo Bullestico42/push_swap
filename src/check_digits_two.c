@@ -25,11 +25,8 @@ int	check_digits_two(char **argv, t_stack *stack)
 			j++;
 		while (argv[i][j])
 		{
-			if (!ft_isdigit(argv[i][j]))
-			{
-				ft_putendl_fd("Error", 2);
-				return (0);
-			}
+			if (!ft_isdigit(argv[i][j]) || j > 11)
+				return (ft_putendl_fd("Error", 2), 0);
 			j++;
 		}
 		i++;

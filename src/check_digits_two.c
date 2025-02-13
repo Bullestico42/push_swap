@@ -83,10 +83,7 @@ int	check_double_two(t_stack *stack)
 		while (j < stack->size_a)
 		{
 			if (stack->a[i] == stack->a[j++])
-			{
-				ft_putendl_fd("Error", 2);
-				return (0);
-			}
+				return (ft_putendl_fd("Error", 2), 0);
 		}
 		i++;
 	}

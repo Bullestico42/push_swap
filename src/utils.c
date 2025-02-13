@@ -26,7 +26,6 @@ void	free_stacks(t_stack *stack)
 		free(stack->b);
 	stack->a = NULL;
 	stack->b = NULL;
-	exit(0);
 }
 
 void	sort_two(t_stack *stack)

@@ -38,6 +38,12 @@ int	check_digits(char *argv, t_stack *stack)
 	char	**tab_digit;
 
 	stack->size_a = count_words(argv, ' ');
+	if (stack->size_a < 1)
+	{
+		if (!ft_isdigit(argv[1]))
+			return (ft_putendl_fd("Error", 2), 0);
+		return (0);
+	}
 	tab_digit = ft_split(argv, ' ');
 	if (!tab_digit)
 		return (0);
